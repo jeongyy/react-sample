@@ -1,0 +1,16 @@
+.Notes form {
+  padding-bottom: 15px;
+}
+
+.Notes form textarea{
+  height: 300px;
+  font-size: 24px;
+}
+
+
+.Notes div.Product {
+    padding:5px;
+    margin-bottom: 10px;
+    border:1px solid #e1e1e1;
+    font-size: 18px;
+}
