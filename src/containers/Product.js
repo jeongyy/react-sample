@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {API} from "aws-amplify";
+import {API, Storage} from "aws-amplify";
 import LoaderButton from "../components/LoaderButton";
 //import config from "../config";
 import "./Product.css";
@@ -16,7 +16,8 @@ export default class Product extends Component {
             product: null,
             productName: "",
             productImg: null,
-            consumerPrice: "",
+            productImgUrl: null,
+            productPrice: "",
             csp: "",
             productMaker: "",
             productModel: "",
@@ -27,20 +28,20 @@ export default class Product extends Component {
 
     async componentDidMount() {
         try {
-            //let attachmentURL;
+            let productImgUrl;
             const product = await this.getProduct();
             console.log(product);
-            const {productName, productImg, productConsumerPrice, csp, productMaker, productModel, productQuantity, productRegDt} = product;
+            const {productName, productImg, productPrice, csp, productMaker, productModel, productQuantity, productRegDt} = product;
 
-            //if (productImg) {
-            //attachmentURL = await Storage.vault.get(productImg);
-            //}
+            if (productImg) {
+                productImgUrl = await Storage.vault.get(productImg);
+            }
 
             this.setState({
                 product,
                 productName,
-                productImg,
-                productConsumerPrice, csp, productMaker, productModel, productQuantity, productRegDt
+                productImg, productImgUrl,
+                productPrice, csp, productMaker, productModel, productQuantity, productRegDt
             });
         } catch (e) {
             alert(e);
@@ -108,6 +109,7 @@ export default class Product extends Component {
             this.setState({isDeleting: false});
         }
     }
+    //<img width="50%" src={'http://img.womanstalk.co.kr/' + this.state.productImg} alt=""/>
 
     render() {
         return (
@@ -117,13 +119,13 @@ export default class Product extends Component {
                     CSP: {this.state.csp}<br/><br/>
                     {this.state.productName}<br/>
                     {this.state.productMaker}<br/><br/>
-                    가격: {this.state.consumerPrice}<br/>
+                    가격: {new Intl.NumberFormat("en-US").format(this.state.productPrice)}원<br/>
                     모델: {this.state.productModel}<br/>
                     수량: {this.state.productQuantity}<br/>
-                    등록: {this.state.productRegDt}
+                    등록: {new Date(this.state.productRegDt).toLocaleString()}
                     {this.state.product.productImg &&
                     <div>
-                        <img width="50%" src={'http://img.womanstalk.co.kr/' + this.state.productImg} alt=""/>
+                        <img width="50%" src={this.state.productImgUrl} alt=""/>
                     </div>
                     }
                 </div>

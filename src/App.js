@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { Auth } from "aws-amplify";
+import React, {Component, Fragment} from "react";
+import {Link, withRouter} from "react-router-dom";
+import {Nav, Navbar, NavItem} from "react-bootstrap";
+import {LinkContainer} from "react-router-bootstrap";
+import {Auth} from "aws-amplify";
 import "./App.css";
 import Routes from "./Routes";
 
@@ -22,17 +22,17 @@ class App extends Component {
                 this.userHasAuthenticated(true);
             }
         }
-        catch(e) {
+        catch (e) {
             if (e !== 'No current user') {
                 alert(e);
             }
         }
 
-        this.setState({ isAuthenticating: false });
+        this.setState({isAuthenticating: false});
     }
 
     userHasAuthenticated = authenticated => {
-        this.setState({ isAuthenticated: authenticated });
+        this.setState({isAuthenticated: authenticated});
     }
 
     handleLogout = async event => {
@@ -49,15 +49,15 @@ class App extends Component {
         return (
             !this.state.isAuthenticating &&
             <div className="App container">
-              <Navbar fluid collapseOnSelect>
-                <Navbar.Header>
-                  <Navbar.Brand>
-                    <Link to="/">Scratch</Link>
-                  </Navbar.Brand>
-                  <Navbar.Toggle />
-                </Navbar.Header>
-                <Navbar.Collapse>
-                  <Nav pullRight>
+                <Navbar fluid collapseOnSelect>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <Link to="/">Spin - product API test</Link>
+                        </Navbar.Brand>
+                        <Navbar.Toggle/>
+                    </Navbar.Header>
+                    <Navbar.Collapse>
+                        <Nav pullRight>
                             {this.state.isAuthenticated
                                 ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
                                 : <Fragment>
@@ -69,10 +69,23 @@ class App extends Component {
                                     </LinkContainer>
                                 </Fragment>
                             }
-                  </Nav>
-                </Navbar.Collapse>
-              </Navbar>
-              <Routes childProps={childProps} />
+                        </Nav>
+                        <Nav pullRight>
+                            {this.state.isAuthenticated
+                                ? <Fragment>
+                                    <LinkContainer to="/category/list">
+                                        <NavItem>Category</NavItem>
+                                    </LinkContainer>
+                                    <LinkContainer to="/products/reg">
+                                        <NavItem>Product</NavItem>
+                                    </LinkContainer>
+                                </Fragment>
+                                : ""
+                            }
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
+                <Routes childProps={childProps}/>
             </div>
         );
     }

@@ -41,19 +41,20 @@ export default class Home extends Component {
                         key={product.productId}
                         href={`/products/${product.productId}`}
                         onClick={this.handleProductClick}
-                        header={product.productName.trim().split("\n")[0]}
+                        //header={product.productName.trim().split("\n")[0]}
+                        header={product.productName}
                     >
-                        Price: {new Intl.NumberFormat("en-US").format(product.productConsumerPrice)}원<br/>
+                        Price: {new Intl.NumberFormat("en-US").format(product.productPrice)}원<br/>
                         Maker: {product.productMaker}<br/>
                         {"등록일: " + new Date(product.productRegDt).toLocaleString()}
                     </ListGroupItem>
                     : <ListGroupItem
                         key="new"
-                        href="/category/list"
+                        href="/products/new"
                         onClick={this.handleProductClick}
                     >
                         <h4>
-                            <b>{"\uFF0B"}</b> Select Category
+                            <b>{"\uFF0B"}</b> Product Register
                         </h4>
                     </ListGroupItem>
         );
@@ -84,7 +85,7 @@ export default class Home extends Component {
     renderProducts() {
         return (
             <div className="notes">
-                <PageHeader>Your Products</PageHeader>
+                <PageHeader>Products List</PageHeader>
                 <ListGroup>
                     {!this.state.isLoading && this.renderNotesList(this.state.products)}
                 </ListGroup>
